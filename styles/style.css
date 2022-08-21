@@ -2,3 +2,11 @@
     height: 480px;
     width: 420px; 
 }
+#map-tooltip {
+    position: fixed;
+    top: 10px;
+    left: 0px;
+    padding: 5px;
+    background-color: rgba(245, 245, 245, 0.831);
+    border: solid 1px rgb(102, 97, 97);
+}

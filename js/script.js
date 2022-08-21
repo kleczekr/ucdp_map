@@ -11,37 +11,6 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 const svg = d3.select(map.getPanes().overlayPane).append("svg");
 const g = svg.append("g").attr("class", "leaflet-zoom-hide");
 
-// tooltip for the circles
-const tooltip = d3.select("#map-tooltip");
-
-// a function to add hover listener with a tooltip over circles
-const addHoverListener = (circle, tooltip) => {
-  circle
-    .on("mouseover", function (d) {
-      console.log(d);
-      console.log(d.target.options.title);
-      tooltip.transition().duration(200).style("opacity", 1);
-      tooltip
-        .html(d.target.options.title)
-        .style("left", d.originalEvent.pageX + "px")
-        .style("top", d.originalEvent.pageY - 28 + "px");
-    })
-    .on("mouseout", function (d) {
-      tooltip.transition().duration(500).style("opacity", 0);
-    })
-    .on("mousemove", function (d) {
-      tooltip
-        .style("left", d.originalEvent.pageX + "px")
-        .style("top", d.originalEvent.pageY - 28 + "px");
-    })
-    .on("click", function (d) {
-      console.log(d.target.options.title);
-    })
-    .on("dblclick", function (d) {
-      console.log(d.target.options.title);
-    });
-};
-
 // read the CSV for the data and add the points to the map
 d3.csv("data/sl.csv", (data) => {
   // use the map.latLngToLayerPoint function to get the coordinates for the points
@@ -52,11 +21,16 @@ d3.csv("data/sl.csv", (data) => {
     fillColor: "#C54B6C",
     opacity: 0.6,
     fillOpacity: 0.3,
-    radius: 15,
+    radius: +data.best * 3,
     title: `Title: ${data.conflict_name}<br>Date: ${new Date(
       data.date_start
     ).toLocaleDateString("af-ZA")}`,
   }).addTo(map);
 
-  addHoverListener(marker, tooltip);
+  marker.bindTooltip(
+    `Title: ${data.conflict_name}<br>
+    Sides: ${data.dyad_name}<br>
+    Date: ${new Date(data.date_start).toLocaleDateString("af-ZA")}`
+  );
+  // addHoverListener(marker, tooltip);
 });
