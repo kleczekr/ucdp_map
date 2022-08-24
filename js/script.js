@@ -1,3 +1,6 @@
+// yearly bubble chart, we'll use a default chart for DC
+const yearlyBubbleChart = new dc.BubbleChart("#yearly-bubble-chart");
+
 // initialize a map in the 'map' div, set the view to a given place and zoom
 const map = L.map("map").setView([7.87, 80.77], 7);
 
